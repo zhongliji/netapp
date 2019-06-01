@@ -1,0 +1,67 @@
+CIFS:
+
+liyang::> vserver create -vserver cifsli -rootvolume li_root1 -aggregate liyang01 -rootvolume-security-style unix
+
+liyang::> vol create -vserver cifsli -volume vol1 -size 10g -aggregate liyang01 -junction-path /cifs
+
+liyang::> vol show -fields junction-path
+
+liyang::> vol show -vserver cifsli -volume vol1
+
+liyang::> net int create -vserver cifsli -lif cifs -home-node liyang-01 -home-port e0c -role data -data-protocol nfs,cifs -address 192.168.8.44 -netmask 255.255.255.0
+
+liyang::> vserver cifs create -cifs-server nas_cifs -workgroup WORGROUP  #command cifs
+
+liyang::> vserver cifs create -cifs-server nas_cifs -domain remotelab.net -ou CN=Computers  #command dns 
+
+liyang::> create -vserver cifsli -share-name samli008 -path /cifs  #command cifs->share
+
+liyang::> vserver cifs users-and-groups local-user create -user-name liyang -is-account-disabled false -vserver cifsli
+
+liyang::> vserver cifs share access-control create -vserver cifsli -share samli008 -user-or-group "liyang" -permission Full_Control 
+
+NFS:
+
+liyang::> vserver nfs create -access true -v3 enabled -v4.0 disabled -tcp enabled -vserver cifsli
+
+liyang::> vserver nfs modify -showmount enabled
+
+liyang::> vserver nfs show 
+
+liyang::> export-policy create -policyname liyang -vserver cifsli
+
+liyang::> export-policy rule create -vserver cifsli -policyname liyang -protocol nfs3 -clientmatch 0.0.0.0/0 -rorule any -rwrule any
+
+liyang::> vol modify -volume vol2 -policy liyang
+
+liyang::> vol show -fields policy 
+
+ISCSI:
+
+liyang::> vserver create -vserver iscsi -rootvolume root1 -aggregate liyang01 -rootvolume-security-style unix
+
+liyang::> net int create -vserver iscsi -lif iscsi -home-node liyang-01 -home-port e0c -role data -data-protocol iscsi -address 192.168.8.45 -netmask 255.255.255.0
+
+liyang::> net int create -vserver iscsi -lif iscsi1 -home-node liyang-02 -home-port e0c -role data -data-protocol iscsi -address 192.168.8.46 -netmask 255.255.255.0
+
+liyang::> vol create -vserver iscsi -volume iscsi01 -size 15g -aggregate liyang01 -junction-path /iscsi
+
+liyang::> lun create -vserver iscsi -volume iscsi01 -lun lun1 -size 10gb -ostype windows
+
+liyang::> iscsi create -vserver iscsi -target-alias netapp9
+
+liyang::> iscsi show
+
+liyang::> iscsi interface show
+
+liyang::> lun igroup create -vserver iscsi li -protocol iscsi -ostype windows
+
+liyang::> lun igroup add -vserver iscsi -igroup li -initiator iqn.1991-05.com.microsoft:2008
+
+liyang::> lun igroup show
+
+liyang::> lun show
+
+liyang::> lun map -vserver iscsi -path /vol/iscsi01/lun1 -igroup li
+
+

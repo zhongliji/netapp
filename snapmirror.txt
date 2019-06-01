@@ -1,0 +1,92 @@
+#zw为源端，wt为目标端
+#查看集群ontap版本是否一致
+zw::> version 
+wt::> version 
+
+#timezone是否一致
+zw::> timezone 
+wt::> timezone 
+    
+#核对系统时间
+zw::> date
+wt::> date
+
+#创建intercluster lif，每个节点至少一个，互相能ping通
+zw::> net int create -vserver zw -lif ic1 -role intercluster -address 192.168.6.111 -netmask 255.255.255.0 -home-node zw-01 -home-port e0f -status-admin up
+zw::> net int create -vserver zw -lif ic2 -role intercluster -address 192.168.6.112 -netmask 255.255.255.0 -home-node zw-02 -home-port e0f -status-admin up
+wt::> net int create -vserver wt -lif ic1 -role intercluster -address 192.168.6.137 -netmask 255.255.255.0 -home-node wt-01 -home-port e0f -status-admin up
+wt::> net int create -vserver wt -lif ic2 -role intercluster -address 192.168.6.138 -netmask 255.255.255.0 -home-node wt-02 -home-port e0f -status-admin up
+
+#查看集群间intercluster lif
+zw::> net int show -role intercluster 
+wt::> net int show -role intercluster 
+
+#创建cluster peer
+zw::> cluster peer create -address-family ipv4 -peer-addrs 192.168.6.113,192.168.6.114
+wt::> cluster peer create -address-family ipv4 -peer-addrs 192.168.6.111,192.168.6.112
+zw::> cluster peer show
+wt::> cluster peer show
+
+#创建svm peer，源端create，目标端accept，peer作用为snapmirror
+zw::> vserver peer create -vserver zhong -peer-vserver wentao -applications snapmirror -peer-cluster wt
+wt::> vserver peer accept -vserver wentao -peer-vserver zhong
+zw::> vserver peer show
+wt::> vserver peer show
+
+#目标端在peer svm里创建目标卷，确保源卷和目标卷language一致
+zw::> vol show -vserver zhong -volume vol1 -fields language
+wt::> vol show -vserver wentao -volume vol1_dr -fields language
+wt::> vol create -vserver wentao -volume vol1_dr -aggregate aggr1_wt_01 -size 10GB -type DP
+
+#查看schedule
+wt::*> job schedule show
+
+#目标端创建snapmirror
+wt::*> snapmirror create -source-path zhong:vol1 -destination-path wentao:vol1_dr -type DP -throttle 102400 -policy DPDefault -schedule 5min
+
+wt::*> snapmirror show
+                                                                       Progress
+Source            Destination Mirror  Relationship   Total             Last
+Path        Type  Path        State   Status         Progress  Healthy Updated
+----------- ---- ------------ ------- -------------- --------- ------- --------
+zhong:vol1  XDP  wentao:vol1_dr Uninitialized Idle   -         true    -
+
+wt::*> vol show 
+Vserver   Volume       Aggregate    State      Type       Size  Available Used%
+--------- ------------ ------------ ---------- ---- ---------- ---------- -----
+wentao    vol1_dr      aggr1_wt_01  online     DP         10GB    10.00GB    0%
+
+wt::*> snapmirror initialize -destination-path wentao:vol1_dr
+#查看目标卷详情
+wt::> snapmirror show -destination-path wentao:vol1_dr -instance
+#手动执行update
+wt::>snapmirror update -destination-path wentao:vol1_dr
+
+目标卷为DP，若要RW需做下面操作
+#静止联系
+wt::>snapmirror quiesce -destination-path wentao:vol1_dr
+#打断联系
+wt::> snapmirror break -destination-path wentao:vol1_dr
+#挂载路径
+wt::> vol mount -vserver wentao -volume vol1_dr -junction-path /vol1_dr
+#配置协议
+#CIFS共享
+wt::> vserver cifs share create -share-name vol1_dr -path /vol1_dr
+wt::> vserver cifs share access-control create -share vol1 -user-or-group administrator -user-group-type windows -permission full_Control
+
+#重新同步
+wt::> snapmirror resync -destination-path wentao:vol1_dr
+
+#释放
+wt::*> snapmirror list-destinations
+wt::*> snapmirror release -destination-path zhong:vol1
+
+#删除
+zw::> snapmirror delete -destination-path zhong:vol1
+
+
+#删除svm peer
+zw::> vserver peer delete -vserver zhong -peer-vserver wentao
+
+#删除cluster peer
+zw::> cluster peer delete -cluster wt
