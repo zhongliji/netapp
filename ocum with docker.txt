@@ -1,0 +1,55 @@
+1. ftp or wget download  docker-ce.tar
+   wget http://IP/docker-ce.tar
+
+2. tar zxvf docker-ce.tar
+
+3. create YUM
+vi /etc/yum.repos.d/docker.repo
+[docker]
+name=docker
+baseurl=file:///root/docker/
+gpgcheck=0
+enables=1
+
+4. createrepo
+createrepo -d /root/docker
+
+5. yum install docker-ce
+
+6. start service
+systemctl enable docker
+systemctl start docker 
+ 
+7. ftp or wget ocum94.tar
+
+8. load image
+docker load < ocum94.tar
+docker images
+
+two method
+method 1 (port mapping)
+A. create network
+docker network create wen --subnet=192.168.10.0/24
+docker network lsdocker network inspect li
+B. docker run
+docker run -d -p 443:443 --network wen --ip 192.168.10.11 -h zhong --name zhong --privileged=true ocum9.4
+
+C. log in docker
+docker exec -it zhong /bin/bash
+service ocie stop
+service ocie start
+
+D: https://virtual machine IP 
+
+method 2 (macvlan)
+A. create network
+docker network create wen -d macvlan --subnet=192.168.6.0/24 --ip-range=192.168.6.90/30 --gateway=192.168.6.1 -o parent=ens192
+docker network lsdocker network inspect wenB. docker run
+docker run -d --network wen --ip 192.168.6.84 -h zhong --name zhong --privileged=true ocum9.4
+
+C. log in docker 
+ssh 192.168.6.84
+service ocie stop
+service ocie start
+
+D. https://docker ip
