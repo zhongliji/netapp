@@ -1,19 +1,19 @@
 Device	Port	              Connects to switch	Connects to switch port
-<SITE>file<NUM>a    0e	      <SITE>file<NUM>swa	        0
+<SITE>file<NUM>a          0e	      <SITE>file<NUM>swa	        0
 	                  0f	      <SITE>file<NUM>swb	        0
 	                  2a	      <SITE>file<NUM>swa	        2
 	                  2b	      <SITE>file<NUM>swb	        2
 	                  2c	      <SITE>file<NUM>swa	        3
 	                  2d	      <SITE>file<NUM>swb	        3
-<SITE>file<NUM>b    0e	      <SITE>file<NUM>swa	        4
+<SITE>file<NUM>b          0e	      <SITE>file<NUM>swa	        4
 	                  0f	      <SITE>file<NUM>swb	        4
 	                  2a	      <SITE>file<NUM>swa	        6
 	                  2b	      <SITE>file<NUM>swb	        6
 	                  2c	      <SITE>file<NUM>swa	        7
 	                  2d	      <SITE>file<NUM>swb	        7
-<SITE>file<NUM>bra  FC1	      <SITE>file<NUM>swa	        8
-<SITE>file<NUM>bra  FC2	      <SITE>file<NUM>swb	        8
-<SITE>file<NUM>brb  FC1	      <SITE>file<NUM>swa	        9
-<SITE>file<NUM>brb  FC2	      <SITE>file<NUM>swb	        9
-<SITE>file<NUM>swa  20	      <SITE>file<NUM+1>swa (ISL)	20
-<SITE>file<NUM>swb  21	      <SITE>file<NUM+1>swb (ISL)	21
+<SITE>file<NUM>bra        FC1	      <SITE>file<NUM>swa	        8
+<SITE>file<NUM>bra        FC2	      <SITE>file<NUM>swb	        8
+<SITE>file<NUM>brb        FC1	      <SITE>file<NUM>swa	        9
+<SITE>file<NUM>brb        FC2	      <SITE>file<NUM>swb	        9
+<SITE>file<NUM>swa        20	      <SITE>file<NUM+1>swa (ISL)	20
+<SITE>file<NUM>swb        21	      <SITE>file<NUM+1>swb (ISL)	21
