@@ -1,4 +1,4 @@
-                                       Site A
+                                        Site A
 Device	Port	                      Connects to switch	Connects to switch port
 <SITE>file<NUM>a        0e	      <SITE>file<NUM>swa	        0
 	                0f	      <SITE>file<NUM>swb	        0
@@ -18,7 +18,7 @@ Device	Port	                      Connects to switch	Connects to switch port
 <SITE>file<NUM>brb      FC2	      <SITE>file<NUM>swb	        9
 <SITE>file<NUM>swa      20	      <SITE>file<NUM+1>swa (ISL)	20
 <SITE>file<NUM>swb      21	      <SITE>file<NUM+1>swb (ISL)	21
-		                       Site B
+		                        Site B
 <SITE>file<NUM+1>a      0e	      <SITE>file<NUM+1>swa	        0
 	                0f	      <SITE>file<NUM+1>swb	        0
 	                2a	      <SITE>file<NUM+1>swa	        2
