@@ -1,0 +1,33 @@
+Generate RCF file
+java -jar RcfFileGenerator
+
+copy http://192.168.10.123/NX3232_v1.7_MCCIP_SW_B1.txt bootflash: vrf management
+
+dir bootflash:
+
+copy bootflash:NX3232_v1.7_MCCIP_SW_B1.txt running-config
+
+copy running-config startup-config
+
+This task only applies to AFF A300 and FAS8200 platforms using 25-Gbps connectivity.
+MCCIP_SW_B1# configure t                                    
+Enter configuration commands, one per line. End with CNTL/Z.
+MCCIP_SW_B1(config)# interface ethernet1/25/1               
+MCCIP_SW_B1(config-if)# fec off                             
+MCCIP_SW_B1(config-if)# exit                                
+MCCIP_SW_B1(config)# end                                    
+MCCIP_SW_B1# copy running-config startup-config             
+[########################################] 100%             
+Copy complete, now saving to disk (please wait)...          
+Copy complete.                                              
+MCCIP_SW_B1# config t                                       
+Enter configuration commands, one per line. End with CNTL/Z.
+MCCIP_SW_B1(config)# interface ethernet1/26/1               
+MCCIP_SW_B1(config-if)# fec off                             
+MCCIP_SW_B1(config-if)# exit                                
+MCCIP_SW_B1(config)# end                                    
+MCCIP_SW_B1# copy running-config startup-config             
+[########################################] 100%             
+Copy complete, now saving to disk (please wait)...          
+Copy complete.                                              
+MCCIP_SW_B1# reload                                         
