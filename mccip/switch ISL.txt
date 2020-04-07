@@ -1,0 +1,18 @@
+                   IP_switch_A_1 ISL connections
+Switch port    Port Speed       Connects to switch               Usage
+7               100 Gbps        IP_switch_A_2 Local           cluster ISL
+8               100 Gbps        IP_switch_A_2 Local           cluster ISL
+
+15            40/100 Gbps       IP_switch_B_1               MetroCluster ISL
+16            40/100 Gbps       IP_switch_B_1               MetroCluster ISL
+17            40/100 Gbps       IP_switch_B_1               MetroCluster ISL
+18            40/100 Gbps       IP_switch_B_1               MetroCluster ISL
+19            40/100 Gbps       IP_switch_B_1               MetroCluster ISL
+20            40/100 Gbps       IP_switch_B_1               MetroCluster ISL
+21/1          10 Gbps using     IP_switch_B_1               MetroCluster ISL (when
+              4x10 Gbps                                     using the Cisco 3232C
+	      breakout cables                               switch in breakout mode)
+22/1                            IP_switch_B_1 .
+23/1                            IP_switch_B_1
+24/1                            IP_switch_B_1
+   
