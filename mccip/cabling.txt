@@ -1,0 +1,47 @@
+The shelf connection method is the same as the cluster                                
+				 
+				 
+				 IP_switch_A_1
+Switch port       Port speed         Node       AFF A300 and FAS8200        Usage
+                100 Gbps switch
+                   port is
+                connected to a
+                25 Gbps port on                            
+                controller using
+                   4x25 Gbps
+                 breakout cable
+25/1		                    node_A_1           e1a            MetroCluster IP interconnect
+26/1                                node_A_2           e1a            MetroCluster IP interconnect
+
+                100 Gbps switch
+                    port is
+                connected to a
+                10 Gbps port on
+                controller using
+                    4x10 Gbps
+                  breakout cable
+29/1                                node_A_1           e0a            Local cluster interconnect
+30/1				    node_A_2           e0a            Local cluster interconnect
+
+
+                                 IP_switch_A_2
+Switch port       Port speed         Node       AFF A300 and FAS8200        Usage
+                100 Gbps switch
+                   port is
+                connected to a
+                25 Gbps port on                            
+                controller using
+                   4x25 Gbps
+                 breakout cable
+25/1		                    node_A_1           e1b            MetroCluster IP interconnect
+26/1                                node_A_2           e1b            MetroCluster IP interconnect
+
+                100 Gbps switch
+                    port is
+                connected to a
+                10 Gbps port on
+                controller using
+                    4x10 Gbps
+                  breakout cable
+29/1                                node_A_1           e0b            Local cluster interconnect
+30/1				    node_A_2           e0b            Local cluster interconnect
