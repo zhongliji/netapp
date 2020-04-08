@@ -1,0 +1,9 @@
+1. copy os to switch
+copy http://192.168.10.173/tftpboot/nxos.9.3.3.bin bootflash: vrf management
+
+2. list file
+dir bootflash:
+
+3. install os
+install all nxos bootflash:nxos.9.3.3.bin
+
