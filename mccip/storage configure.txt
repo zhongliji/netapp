@@ -1,0 +1,86 @@
+1. loader
+set-defaults
+
+2. configure ADP and ownership
+9a Unpartition all disks and remove their ownership information
+
+3. Maintenance mode
+ha-config show
+ha-config modify controller mccip
+ha-config modify chassis mccip
+#assign 3 disk to install ontap
+disk assign 0a.10.15
+disk assign 0a.10.16
+disk assign 0a.10.17
+
+4. install new ontap and initialize
+
+5. cluster setup
+
+6. install license
+
+7. create failover-group
+
+8. Create intercluster LIFs on the system SVM
+net int create -vserver MCCIP_A -lif MCCIP_A-01-ic1 -role intercluster -address 192.168.10.165 -service-policy default-intercluster
+-netmask 255.255.255.0 -home-node MCCIP_A-01 -status-admin up -home-port e0c
+
+9. create cluster peer
+cluster peer create -address-family ipv4 -peer-addrs 192.168.10.165,192.168.10.166,192.168.10.167,192.168.10.168
+
+10. Creating the DR group
+node_A_1 and node_B_1
+node_A_2 and node_B_2
+metrocluster configuration-settings show-status
+metrocluster configuration-settings dr-group create -partner-cluster MCCIP_B -local-node MCCIP_A-01 -remote-node MCCIP_B-01
+
+11. Configuring  MetroCluster IP interfaces
+metrocluster configuration-settings interface create -cluster-name MCCIP_A -home-node MCCIP_A-01 -home-port e1a -address 10.1.1.1
+-netmask 255.255.255.0
+metrocluster configuration-settings interface show
+
+
+12. Connecting MetroCluster IP interfaces
+metrocluster configuration-settings connection connect
+set -privilege advanced
+storage iscsi-initiator show
+metrocluster node show
+
+
+13. assign disk
+disk assign -owner MCCIP_A-01 -disklist 1.0.0
+disk assign -owner MCCIP_A-01 -pool 1 -disklist MCCIP_A-01:0m.i1.4L9
+
+14. root aggr mirror
+aggr mirror -aggregate aggr0_MCCIP_A_01
+
+15. create data aggr for mirror
+aggr create -aggregate MCCIP_A_01_ssd_aggr -diskcount 22 -maxraidsize 12 -mirror true -disktype SSD -node MCCIP_A-01
+aggr create -aggregate MCCIP_A_02_sas_aggr -diskcount 44 -mirror true -simulate true -node MCCIP_A-02 -maxraidsize 22
+
+16. metrocluster configure
+metrocluster configure -allow-with-one-aggregate true
+
+17. check
+metrocluster show
+metrocluster check run
+metrocluster check show
+metrocluster check aggregate show
+metrocluster check cluster show
+metrocluster check config-replication show
+metrocluster check lif show
+metrocluster check node show
+
+18. test switchover
+metrocluster switchover
+metrocluster switchback
+#If the system is running ONTAP 9.4 or earlier, heal the data aggregate
+metrocluster heal aggregates
+metrocluster heal root-aggregates
+
+19. install tiebreaker
+
+
+
+
+
