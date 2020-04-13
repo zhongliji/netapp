@@ -142,8 +142,39 @@ metrocluster heal aggregates
 metrocluster heal root-aggregates
 
 19. install tiebreaker
+yum install java-1.8.0-openjdk.x86_64
+yum install mariadb-server.x86_64
+systemctl start mariadb
+systemctl enable mariadb
+systemctl status mariadb
+mysql_secure_installation
+Example
+[root@mcctb ~]# mysql_secure_installation
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+SERVERS IN PRODUCTION USE! PLEASE READ EACH STEP CAREFULLY!
+Set root password? [Y/n] y
+New password:
+Re-enter new password:
+Password updated successfully!
+Remove anonymous users? [Y/n] y
+... Success!
+Normally, root should only be allowed to connect from 'localhost'. This
+ensures that someone cannot guess at the root password from the network.
+Disallow root login remotely? [Y/n] y
+... Success!
+Remove test database and access to it? [Y/n] y
+- Dropping test database...
+... Success!
+- Removing privileges on test database...
+... Success!
+Reload privilege tables now? [Y/n]
+... Success!
+Cleaning up...
+All done! If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+Thanks for using MariaDB!
 
-
-
+rpm -ivh NetApp-MetroCluster-TiebreakerSoftware-1.21P2-1.x86_64.rpm
+netapp-metrocluster-tiebreaker-software-cli
 
 
