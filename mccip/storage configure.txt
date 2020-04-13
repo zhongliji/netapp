@@ -176,5 +176,6 @@ Thanks for using MariaDB!
 
 rpm -ivh NetApp-MetroCluster-TiebreakerSoftware-1.21P2-1.x86_64.rpm
 netapp-metrocluster-tiebreaker-software-cli
+monitor modify -monitor-name monitor_name -observer-mode false
 
 
