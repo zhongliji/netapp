@@ -1,0 +1,18 @@
+#C-mode
+clusterA::> autosupport invoke -node CDXX_FAS8040B -type all -uri file:///mroot/etc/log/CDXX_FAS8040B_0927_0926.7z
+clusterA::> autosupport history show -node CDXX_FAS8040  #状态为sent-successful,表示创建成功
+https://cluster-mgmt-ip/spi
+
+#7-mode
+options httpd.admin.enable on
+options httpd.enable on
+options httpd.autoindex.enable on
+options httpd.rootdir /vol/vol0/etc/log
+
+options autosupport.doit all
+autosupport history show
+autosupport history show -seq-num
+autosupport history retransmit -seq-num 3148 -uri file:///mroot/etc/log/retransmit/zx-b-3148.7z
+autosupport history show -seq-num 3148 retransmit
+
+
