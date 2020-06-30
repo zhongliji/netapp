@@ -4,6 +4,11 @@
 #IF New firmware is older than existing firmware
  sp update http://web_server_name/path/SP_FW.tar.gz -f
  sp status
+ 
+ #ontap下
+ system node image get -package http://web_server_name/path/SP_FW.zip -replace-package true -node node_name 
+ system service-processor image update-progress show -node node1
+ sp show
 
 #SP Internal Switch Update
 *> priv set diag
