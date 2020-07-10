@@ -1,0 +1,32 @@
+copy iso to linux
+mount -o loop /root/CentOS-7-x86_64-DVD-1810.iso /media
+虚拟光驱挂载iso
+mount /dev/cdrom /media
+df -hT
+
+vi /etc/yum.repo.d/media.repo
+[media]
+name=media
+baseurl=file:///media
+gpgcheck=0
+enable=1
+
+vi /etc/yum.repo.d/python
+[python]
+name=python
+baseurl=file:///root/python
+gpgcheck=0
+enable=1
+
+yum clean all
+yum makecache
+
+./ONTAP-MEDIATOR-1.1
+
+systemctl status mediator-scst.service
+
+metrocluster configuration-settings mediator add -mediatoraddress ip-address-of-mediator-host
+metrocluster configuration-settings mediator remove
+mediator_change_password
+mediator_change_user
+uninstall_ontap_mediator
