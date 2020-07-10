@@ -18,7 +18,7 @@ enable=1
 vi /etc/yum.repo.d/python
 [python]
 name=python
-baseurl=file:///root/python
+baseurl=file:///root/root/python
 gpgcheck=0
 enable=1
 
