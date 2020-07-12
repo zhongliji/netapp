@@ -25,6 +25,10 @@ enable=1
 yum clean all
 yum makecache
 
+yum install python36
+yum install python36-devel
+yum install python36-pip
+
 ./ONTAP-MEDIATOR-1.1
 
 systemctl status mediator-scst.service
