@@ -27,7 +27,7 @@ yum makecache
 
 yum install python36
 yum install python36-devel
-yum install python36-pip
+
 
 ./ONTAP-MEDIATOR-1.1
 
