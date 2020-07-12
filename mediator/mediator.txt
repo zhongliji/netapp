@@ -38,3 +38,33 @@ metrocluster configuration-settings mediator remove
 mediator_change_password
 mediator_change_user
 uninstall_ontap_mediator
+
+
+MCCIP_A::> metrocluster show
+Configuration: IP-fabric
+Cluster                        Entry Name             State
+------------------------------ ---------------------- ---------------------
+Local: MCCIP_A
+                                 Configuration State  configured
+                                                Mode  normal
+                                 AUSO Failure Domain  auso-disabled
+Remote: MCCIP_B
+                                 Configuration State  configured
+                                                Mode  normal
+                                 AUSO Failure Domain  auso-disabled
+                                 
+MCCIP_A::> metrocluster show
+Configuration: IP-fabric
+Cluster                        Entry Name             State
+------------------------------ ---------------------- ---------------------
+Local: MCCIP_A
+                                 Configuration State  configured
+                                                Mode  normal
+                                 AUSO Failure Domain  auso-on-cluster-disaster
+Remote: MCCIP_B
+                                 Configuration State  configured
+                                                Mode  normal
+                                 AUSO Failure Domain  auso-on-cluster-disaster
+                                 
+                                 
+
