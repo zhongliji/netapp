@@ -1,6 +1,6 @@
-systemctl stop firewalld
-systemctl disable firewalld
-sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+#systemctl stop firewalld
+#systemctl disable firewalld
+#sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 
 copy iso to linux
 mount -o loop /root/CentOS-7-x86_64-DVD-1810.iso /media
