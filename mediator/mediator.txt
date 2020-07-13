@@ -15,7 +15,7 @@ baseurl=file:///media
 gpgcheck=0
 enable=1
 
-vi /etc/yum.repo.d/python
+vi /etc/yum.repo.d/python.repo
 [python]
 name=python
 baseurl=file:///root/root/python
