@@ -44,6 +44,6 @@ network  interface show -is-home false
 network  interface  revert -vserver * -lif *
 Event log show
 
-#Second node repeat 
+#Second node repeat go to line 34
 
 
