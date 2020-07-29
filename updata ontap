@@ -39,6 +39,7 @@ network interface modify -vserver vserver_name –lif LIF_name -home-node first_
 system services ntp server show
 system node date show
 system node image show
+run -node * sysstat -x   #CPU使用超过50%，转离线方式升级
 
 #upload image
 system node image update -node * -package http://* -setdefault true
