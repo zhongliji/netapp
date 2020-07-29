@@ -30,6 +30,8 @@ storage failover show –instance
 storage failover show -node * -field auto-giveback
 storage failover modify -node * -auto-giveback false
 system node autosupport invoke -type all -node <nodename> -message "Upgrading to 9.1P20"
+
+#start to updata
 network interface migrate-all -node <nodename>
 storage failover takeover -ofnode <nodenameB>
 storage failover giveback -ofnode <nodenameB>  
@@ -41,5 +43,7 @@ system node upgrade-revert show
 network  interface show -is-home false 
 network  interface  revert -vserver * -lif *
 Event log show
+
+#Second node repeat 
 
 
