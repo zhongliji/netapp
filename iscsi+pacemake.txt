@@ -1,0 +1,48 @@
+vserver create -vserver iscsi -subtype default -rootvolume iscsi_root -rootvolume-security-style unix -language C.UTF-8
+net int create -vserver iscsi -lif iscsi1 -role data -data-protocol iscsi -address 192.168.6.201 -netmask 255.255.255.0 -home-node cdlab-01 -home-port a0a -status-admin up
+net int create -vserver iscsi -lif iscsi2 -role data -data-protocol iscsi -address 192.168.6.202 -netmask 255.255.255.0 -home-node cdlab-02 -home-port a0a -status-admin up
+iscsi create -target-alias iscsi -status-admin up -vserver iscsi
+vol create -vserver iscsi -volume iscsi -size 5T -aggregate aggr1 -junction-path /iscsi
+
+lun create -vserver iscsi -volume iscsi -lun lun1 -size 4T -ostype linux
+lun igroup create -igroup linux -protocol iscsi -ostype linux
+
+lun igroup add -vserver iscsi -igroup linux -initiator iqn.1994-05.com.redhat:19484c2db7eb
+lun igroup add -vserver iscsi -igroup linux -initiator iqn.1994-05.com.redhat:f34392e07485
+
+
+lun map -path /vol/iscsi/lun1 -igroup linux -vserver iscsi
+
+yum -y install iscsi-initiator-utils
+cat /etc/iscsi/initiatorname.iscsi
+
+yum -y install device-mapper-multipath
+cp /usr/share/doc/device-mapper-multipath-0.4.9/multipath.conf /etc/
+systemctl enable multipathd
+systemctl start multipathd
+lsmod |grep dm
+
+iscsiadm -m iface -I eth0 -o new
+iscsiadm -m discovery -t st -p IP
+iscsiadm -m node -l
+iscsiadm -m node -u
+
+vi /etc/multipath.conf
+multipaths {
+        multipath {
+                wwid                    364ed2aa51864120b621ab51c2b9bf4b1
+                alias                   ps6100
+                path_grouping_policy    multibus
+                failback                immediate
+                rr_weight               priorities
+                no_path_retry           5
+        }
+#       multipath {
+#               wwid                    1DEC_____321816758474
+#               alias                   red
+#       }
+}
+
+multipath -v2
+systemctl reload multipathd
+multipath -ll
