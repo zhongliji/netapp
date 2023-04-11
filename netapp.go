@@ -2,7 +2,7 @@ package netapp
 
 import (
 	"fmt"
-	"github.com/zhongliji/dell"
+	"github.com/zhongliji/dell/cal"
 )
 
 var Operator string
