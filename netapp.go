@@ -8,9 +8,8 @@ import (
 var Operator string
 var Num1 float64
 var Num2 float64
-var C string
 
-func Input() {
+func Input(C string) string {
 
 	fmt.Println("请输入操作符(+,-,*,/,%):")
 	fmt.Scanln(&Operator)
@@ -26,4 +25,5 @@ func Input() {
 
 	fmt.Println("按c继续,按其他键退出")
 	fmt.Scanln(&C)
+	retrun C
 }
