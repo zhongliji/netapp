@@ -25,5 +25,5 @@ func Input(C string) string {
 
 	fmt.Println("按c继续,按其他键退出")
 	fmt.Scanln(&C)
-	retrun C
+	return C
 }
